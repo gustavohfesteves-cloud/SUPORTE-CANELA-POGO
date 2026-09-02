@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Itens de Apoio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f4f8;
+            background-image: radial-gradient(circle at top, #ffffff 0%, #e0e8f0 100%);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 100px; /* Espaço para o botão do WhatsApp */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        .nav-link {
+            color: #fff;
+            background-color: #3b4cca;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(59, 76, 202, 0.4);
+            margin-bottom: 20px;
+            align-self: flex-start;
+        }
+
+        h1 {
+            color: #ffcb05;
+            text-shadow: 2px 2px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca, 1px 1px 0 #3b4cca;
+            font-size: 28px;
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        /* VÍDEO EXPLICATIVO */
+        .video-box {
+            background: #fff;
+            border: 3px solid #ffcb05;
+            border-radius: 15px;
+            padding: 15px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .video-box h3 {
+            margin: 0 0 10px 0;
+            color: #ff0000;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        .video-box video {
+            width: 100%;
+            border-radius: 10px;
+            background-color: #000;
+        }
+
+        /* CATÁLOGO DE ITENS */
+        .catalogo {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .display-area {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .item-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .pix-area {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background: #f8f9fa;
+            border: 2px dashed #3b4cca;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .pix-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            word-break: break-all;
+            color: #555;
+            text-align: center;
+            margin-bottom: 10px;
+            max-height: 50px;
+            overflow-y: auto;
+        }
+
+        .btn-copiar {
+            background: #3b4cca;
+            color: #fff;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .item-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .item-titulo {
+            font-size: 20px;
+            font-weight: 900;
+            color: #333;
+            margin: 0;
+        }
+
+        .item-preco {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ff0000;
+            margin: 5px 0 15px 0;
+        }
+
+        .btn-comprar {
+            background-color: #ffcb05;
+            color: #3b4cca;
+            border: none;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 203, 5, 0.4);
+            transition: 0.2s;
+        }
+
+        .btn-comprar:active {
+            transform: scale(0.95);
+        }
+
+        /* WHATSAPP FIXO */
+        .zap-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .zap-btn {
+            background-color: #25D366;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-weight: 900;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            gap: 10px;
+        }
+
+        .zap-texto {
+            display: none;
+        }
+
+        .zap-btn.alerta {
+            background-color: #ff0000;
+            box-shadow: 0 5px 20px rgba(255,0,0,0.5);
+            animation: pulsar 1.5s infinite;
+        }
+
+        .zap-btn.alerta .zap-texto {
+            display: block;
+        }
+
+        @keyframes pulsar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="nav-link">❮ VOLTAR</a>
+
+    <h1>Catálogo Canela</h1>
+
+    <!-- VÍDEO EXPLICATIVO -->
+    <div class="video-box">
+        <h3>DÚVIDAS DE COMO FUNCIONA?</h3>
+        <!-- UTILIZE CTRL+F PARA ACHAR "SEU_VIDEO_AQUI.mp4" -->
+        <video controls src="SEU_VIDEO_AQUI.mp4" poster="capa_video.jpeg"></video>
+    </div>
+
+    <div class="catalogo">
+        <!-- ITEM 1: OVO DA SORTE -->
+        <div class="card" id="card-ovo">
+            <div class="display-area">
+                <!-- UTILIZE CTRL+F PARA ACHAR "IMG_OVO.jpeg" -->
+                <img src="IMG_OVO.jpeg" alt="Ovo da Sorte" class="item-img" id="img-ovo">
+                <div class="pix-area" id="pix-area-ovo">
+                    <!-- UTILIZE CTRL+F PARA ACHAR "PIX_COPIA_E_COLA_OVO" -->
+                    <div class="pix-code" id="codigo-ovo">PIX_COPIA_E_COLA_OVO</div>
+                    <button class="btn-copiar" onclick="copiarPix('codigo-ovo')">COPIAR PIX</button>
+                </div>
+            </div>
+            <div class="item-info">
+                <p class="item-titulo">OVO DA SORTE</p>
+                <p class="item-preco">R$ 0,80</p>
+                <button class="btn-comprar" onclick="acionarCompra('ovo')">GERAR PIX</button>
+            </div>
+        </div>
+
+        <!-- ITEM 2: INCENSO -->
+        <div class="card" id="card-incenso">
+            <div class="display-area">
+                <!-- UTILIZE CTRL+F PARA ACHAR "IMG_INCENSO.jpeg" -->
+                <img src="IMG_INCENSO.jpeg" alt="Incenso" class="item-img" id="img-incenso">
+                <div class="pix-area" id="pix-area-incenso">
+                    <!-- UTILIZE CTRL+F PARA ACHAR "PIX_COPIA_E_COLA_INCENSO" -->
+                    <div class="pix-code" id="codigo-incenso">PIX_COPIA_E_COLA_INCENSO</div>
+                    <button class="btn-copiar" onclick="copiarPix('codigo-incenso')">COPIAR PIX</button>
+                </div>
+            </div>
+            <div class="item-info">
+                <p class="item-titulo">INCENSO</p>
+                <p class="item-preco">R$ 0,40</p>
+                <button class="btn-comprar" onclick="acionarCompra('incenso')">GERAR PIX</button>
+            </div>
+        </div>
+
+        <!-- ITEM 3: MÓDULO LURE -->
+        <div class="card" id="card-lure">
+            <div class="display-area">
+                <!-- UTILIZE CTRL+F PARA ACHAR "IMG_LURE.jpeg" -->
+                <img src="IMG_LURE.jpeg" alt="Módulo Lure" class="item-img" id="img-lure">
+                <div class="pix-area" id="pix-area-lure">
+                    <!-- UTILIZE CTRL+F PARA ACHAR "PIX_COPIA_E_COLA_LURE" -->
+                    <div class="pix-code" id="codigo-lure">PIX_COPIA_E_COLA_LURE</div>
+                    <button class="btn-copiar" onclick="copiarPix('codigo-lure')">COPIAR PIX</button>
+                </div>
+            </div>
+            <div class="item-info">
+                <p class="item-titulo">MÓDULO LURE</p>
+                <p class="item-preco">R$ 1,00</p>
+                <button class="btn-comprar" onclick="acionarCompra('lure')">GERAR PIX</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÃO WHATSAPP FIXO -->
+    <div class="zap-container">
+        <a href="https://wa.me/5541996420192" target="_blank" class="zap-btn" id="zap-btn">
+            <span style="font-size: 24px;">💬</span>
+            <span class="zap-texto">MANDAR COMPROVANTE PELO WHATSAPP</span>
+        </a>
+    </div>
+
+    <script>
+        function acionarCompra(idItem) {
+            // Esconde a imagem do item
+            document.getElementById('img-' + idItem).style.display = 'none';
+            // Mostra a área do PIX
+            document.getElementById('pix-area-' + idItem).style.display = 'flex';
+            
+            // Ativa o alerta vermelho no WhatsApp
+            const zapBtn = document.getElementById('zap-btn');
+            zapBtn.classList.add('alerta');
+        }
+
+        function copiarPix(idCodigo) {
+            const textoPix = document.getElementById(idCodigo).innerText;
+            navigator.clipboard.writeText(textoPix).then(() => {
+                alert("Código Pix copiado! Cole no seu aplicativo do banco.");
+            }).catch(err => {
+                alert("Falha ao copiar. Tente selecionar o texto manualmente.");
+            });
+        }
+    </script>
+</body>
+</html>
