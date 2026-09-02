@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Logística - Mestre</title>
+    <style>
+        body { font-family: 'Courier New', Courier, monospace; background-color: #000; color: #ffcb05; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        .terminal { background-color: #0a0a0a; border: 2px solid #3b4cca; padding: 25px; width: 100%; max-width: 500px; box-shadow: 0 0 20px rgba(59, 76, 202, 0.4); margin-bottom: 20px; }
+        h2 { margin-top: 0; color: #fff; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px dashed #3b4cca; padding-bottom: 10px; }
+        .input-dev { width: 100%; padding: 12px; font-size: 14px; font-family: inherit; background-color: #111; color: #fff; border: 1px solid #3b4cca; margin-bottom: 15px; box-sizing: border-box; }
+        select.input-dev { color: #ffcb05; font-weight: bold; }
+        textarea.input-dev { resize: vertical; min-height: 80px; }
+        .btn-override { width: 100%; padding: 15px; font-weight: bold; font-size: 16px; font-family: inherit; cursor: pointer; text-transform: uppercase; transition: 0.2s; margin-bottom: 15px; border: none; }
+        .btn-detonador { background-color: #ffaa00; color: #000; }
+        .btn-injetar { background-color: #39ff14; color: #000; }
+        .btn-override:hover { background-color: #fff; color: #000; }
+        .nav-link { color: #aaa; text-decoration: none; display: block; margin-bottom: 20px; text-transform: uppercase; border: 1px solid #555; padding: 10px; }
+        #log-dev { margin-top: 10px; font-weight: bold; min-height: 20px; text-transform: uppercase; }
+        
+        #tela-auth { display: block; }
+        #tela-painel { display: none; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="nav-link">[ <- RETORNAR AO MENU CENTRAL ]</a>
+
+    <div class="terminal" id="tela-auth">
+        <h2>AUTENTICAÇÃO LOGÍSTICA</h2>
+        <input type="email" id="auth-email" class="input-dev" placeholder="E-mail Operacional">
+        <input type="password" id="auth-senha" class="input-dev" placeholder="Senha Mestra">
+        <button class="btn-override btn-detonador" onclick="validarAcesso()">LIBERAR PAINEL</button>
+        <div id="log-auth"></div>
+    </div>
+
+    <div class="terminal" id="tela-painel">
+        <h2>LOGÍSTICA: ADICIONAR ITEM</h2>
+        
+        <button class="btn-override btn-detonador" onclick="iniciarLojaBanco()">1. INICIALIZAR TABELA DE PRODUTOS</button>
+        <div style="font-size: 11px; color: #777; margin-bottom: 20px;">* Aperte este botão apenas 1 vez na vida, para criar a tabela no Postgres.</div>
+
+        <label>CATEGORIA:</label>
+        <select id="prod-categoria" class="input-dev">
+            <option value="reides">Esquadrão de Reides (Pokémons)</option>
+            <option value="itens">Itens de Apoio</option>
+        </select>
+
+        <label>NOME DO ITEM/POKÉMON:</label>
+        <input type="text" id="prod-nome" class="input-dev" placeholder="Ex: Mewtwo Mofado">
+        
+        <label>VALOR (R$):</label>
+        <input type="number" id="prod-preco" class="input-dev" placeholder="Ex: 2.50" step="0.01">
+        
+        <label>NOME DO ARQUIVO DA IMAGEM:</label>
+        <input type="text" id="prod-imagem" class="input-dev" placeholder="Ex: mewtwo.jpeg">
+
+        <label>CÓDIGO PIX (Copia e Cola):</label>
+        <textarea id="prod-pix" class="input-dev" placeholder="Cole o código PIX enorme aqui..."></textarea>
+        
+        <button class="btn-override btn-injetar" onclick="injetarProduto()">2. ADICIONAR AO CATÁLOGO</button>
+        
+        <div id="log-dev">SISTEMA AGUARDANDO COMANDO.</div>
+    </div>
+
+    <script>
+        let masterCredenciais = { email: '', senha: '' };
+
+        function validarAcesso() {
+            const email = document.getElementById('auth-email').value;
+            const senha = document.getElementById('auth-senha').value;
+            if (email === 'gustavohfesteves@gmail.com' && senha === 'A0537NaoMeu') {
+                masterCredenciais.email = email;
+                masterCredenciais.senha = senha;
+                document.getElementById('tela-auth').style.display = 'none';
+                document.getElementById('tela-painel').style.display = 'block';
+            } else {
+                const log = document.getElementById('log-auth');
+                log.innerText = "ACESSO NEGADO.";
+                log.style.color = "#ff0000";
+            }
+        }
+
+        async function enviarComando(operacao, payload = {}) {
+            const log = document.getElementById('log-dev');
+            log.innerText = "PROCESSANDO TRANSAÇÃO COM O COFRE...";
+            log.style.color = "#fff";
+
+            try {
+                const response = await fetch('/api/defesa', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        operacao: operacao,
+                        emailAutoridade: masterCredenciais.email,
+                        senhaAutoridade: masterCredenciais.senha,
+                        ...payload
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    log.innerText = `FALHA: ${data.erro}`;
+                    log.style.color = "#ff3333";
+                    return;
+                }
+
+                log.innerText = `SUCESSO: ${data.status}`;
+                log.style.color = "#39ff14";
+                
+                if (operacao === 'adicionar_produto') {
+                    // Limpar formulário após sucesso
+                    document.getElementById('prod-nome').value = '';
+                    document.getElementById('prod-preco').value = '';
+                    document.getElementById('prod-imagem').value = '';
+                    document.getElementById('prod-pix').value = '';
+                }
+
+            } catch (error) {
+                log.innerText = `ERRO CRÍTICO DE REDE: ${error.message}`;
+                log.style.color = "#ff3333";
+            }
+        }
+
+        function iniciarLojaBanco() {
+            enviarComando('iniciar_loja');
+        }
+
+        function injetarProduto() {
+            const categoria = document.getElementById('prod-categoria').value;
+            const nome = document.getElementById('prod-nome').value.trim();
+            const preco = parseFloat(document.getElementById('prod-preco').value);
+            const imagem = document.getElementById('prod-imagem').value.trim();
+            const pix = document.getElementById('prod-pix').value.trim();
+
+            if (!nome || isNaN(preco) || !imagem || !pix) {
+                document.getElementById('log-dev').innerText = "FALHA: PREENCHA TODOS OS CAMPOS.";
+                document.getElementById('log-dev').style.color = "#ff3333";
+                return;
+            }
+
+            const produto = { categoria, nome, preco, imagem, pix };
+            enviarComando('adicionar_produto', { produto });
+        }
+    </script>
+</body>
+</html>
