@@ -3,21 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esquadrão de Reides - Pokémon GO</title>
+    <title>Esquadrão de Reides - Tático Simples</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
 
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #f0f4f8;
-            background-image: radial-gradient(circle at top, #ffffff 0%, #e0e8f0 100%);
+            background-image: url('indexfundo.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             margin: 0;
             padding: 20px;
             padding-bottom: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #333;
+        }
+
+        /* Camada de vidro para leitura clara */
+        .glass-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: -1;
         }
 
         .nav-link {
@@ -26,50 +36,41 @@
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 20px;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(59, 76, 202, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             margin-bottom: 20px;
             align-self: flex-start;
+            border: 2px solid #fff;
         }
 
         h1 {
             color: #ffcb05;
-            text-shadow: 2px 2px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca, 1px 1px 0 #3b4cca;
-            font-size: 28px;
+            text-shadow: 3px 3px 0 #3b4cca, -1px -1px 0 #3b4cca, 1px -1px 0 #3b4cca, -1px 1px 0 #3b4cca, 1px 1px 0 #3b4cca;
+            font-size: 32px;
             text-transform: uppercase;
-            margin: 0 0 20px 0;
             text-align: center;
+            margin-bottom: 25px;
         }
 
-        /* VÍDEO EXPLICATIVO */
         .video-box {
             background: #fff;
-            border: 3px solid #3b4cca;
-            border-radius: 15px;
+            border: 4px solid #ffcb05;
+            border-radius: 20px;
             padding: 15px;
             width: 100%;
             max-width: 500px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             margin-bottom: 30px;
         }
-        .video-box h3 {
-            margin: 0 0 10px 0;
-            color: #ff0000;
-            font-size: 16px;
-            font-weight: 900;
-        }
-        .video-box video {
-            width: 100%;
-            border-radius: 10px;
-            background-color: #000;
-        }
 
-        /* CATÁLOGO DE POKÉMONS (GRADE TÁTICA) */
+        .video-box h3 { margin: 0 0 10px 0; color: #ff0000; font-weight: 900; }
+        .video-box video { width: 100%; border-radius: 10px; background-color: #000; }
+
         .catalogo {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
             width: 100%;
             max-width: 1200px;
@@ -77,198 +78,68 @@
         }
 
         .card {
-            background: #fff;
-            border-radius: 20px;
-            border: 2px solid #e0e0e0;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 25px;
+            border: 3px solid #ffcb05;
             padding: 20px;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            position: relative;
-            width: 100%;
-            max-width: 320px;
-            box-sizing: border-box;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .display-area {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 140px; height: 140px;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 15px;
         }
 
-        .item-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
+        .item-img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .pix-area {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            background: #f8f9fa;
-            border: 2px dashed #ff0000;
-            border-radius: 10px;
-            padding: 10px;
-            box-sizing: border-box;
+            display: none; flex-direction: column; align-items: center;
+            width: 100%; background: #fff; border: 2px dashed #ff0000;
+            border-radius: 10px; padding: 10px; box-sizing: border-box;
         }
 
-        .pix-code {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 11px;
-            word-break: break-all;
-            color: #555;
-            text-align: center;
-            margin-bottom: 10px;
-            max-height: 50px;
-            overflow-y: auto;
-        }
+        .pix-code { font-family: monospace; font-size: 11px; color: #555; word-break: break-all; margin-bottom: 10px; text-align: center; max-height: 50px; overflow-y: auto; }
+        .btn-copiar { background: #ff0000; color: #fff; border: none; padding: 8px 15px; border-radius: 15px; font-weight: 900; cursor: pointer; }
 
-        .btn-copiar {
-            background: #ff0000;
-            color: #fff;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-        }
+        .item-titulo { font-size: 20px; font-weight: 900; color: #3b4cca; margin: 0; text-transform: uppercase; text-align: center; }
+        .item-preco { font-size: 22px; font-weight: 900; color: #ff0000; margin: 5px 0 15px 0; }
 
-        .item-info {
-            text-align: center;
-            width: 100%;
-        }
+        .btn-comprar { background-color: #ffcb05; color: #3b4cca; border: 2px solid #e0b000; padding: 12px 0; width: 100%; border-radius: 20px; font-weight: 900; font-size: 16px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .btn-comprar:active { transform: scale(0.95); }
 
-        .item-titulo {
-            font-size: 20px;
-            font-weight: 900;
-            color: #3b4cca;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .item-preco {
-            font-size: 22px;
-            font-weight: 900;
-            color: #333;
-            margin: 5px 0 15px 0;
-        }
-
-        .btn-comprar {
-            background-color: #ffcb05;
-            color: #3b4cca;
-            border: none;
-            padding: 12px 0;
-            width: 100%;
-            border-radius: 15px;
-            font-weight: 900;
-            font-size: 16px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 203, 5, 0.4);
-            transition: 0.2s;
-        }
-
-        .btn-comprar:active {
-            transform: scale(0.95);
-        }
-
-        /* WHATSAPP FIXO */
-        .zap-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .zap-btn {
-            background-color: #25D366;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            font-weight: 900;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            gap: 10px;
-        }
-
-        .zap-texto {
-            display: none;
-        }
-
-        .zap-btn.alerta {
-            background-color: #ff0000;
-            box-shadow: 0 5px 20px rgba(255,0,0,0.5);
-            animation: pulsar 1.5s infinite;
-        }
-
-        .zap-btn.alerta .zap-texto {
-            display: block;
-        }
-
-        @keyframes pulsar {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        /* ZAP FIXO */
+        .zap-container { position: fixed; bottom: 20px; right: 20px; z-index: 100; }
+        .zap-btn { background-color: #25D366; color: #fff; text-decoration: none; display: flex; align-items: center; padding: 15px; border-radius: 30px; font-weight: 900; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.2s; gap: 10px; border: 2px solid #fff; }
+        .zap-texto { display: none; }
+        .zap-btn.alerta { background-color: #ff0000; animation: pulsar 1s infinite; }
+        .zap-btn.alerta .zap-texto { display: block; }
+        @keyframes pulsar { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
+
+    <div class="glass-overlay"></div>
 
     <a href="index.html" class="nav-link">❮ VOLTAR PARA A BASE</a>
 
     <h1>Esquadrão de Reides</h1>
 
-    <!-- VÍDEO EXPLICATIVO -->
     <div class="video-box">
         <h3>COMO RECEBER SEUS POKÉMONS?</h3>
+        <!-- INSIRA SEU VÍDEO AQUI -->
         <video controls src="VIDEO_REIDES_AQUI.mp4" poster="capa_video_reides.jpeg"></video>
     </div>
 
-    <div class="catalogo">
-        <!-- O bloco abaixo se repete 30 vezes. Use Ctrl+F nas chaves _1, _2, _3... -->
-        
-        <script>
-            // Gerador automático de slots em tempo de execução para manter o código limpo e leve.
-            // Isso cria os 30 cards exatamente com as marcações para você procurar e substituir.
-            const totalPokemons = 30;
-            let htmlCards = '';
-            
-            for(let i = 1; i <= totalPokemons; i++) {
-                htmlCards += `
-                <div class="card" id="card-poke${i}">
-                    <div class="display-area">
-                        <img src="IMG_POKE_${i}.jpeg" alt="NOME_POKEMON_${i}" class="item-img" id="img-poke${i}">
-                        <div class="pix-area" id="pix-area-poke${i}">
-                            <div class="pix-code" id="codigo-poke${i}">PIX_COPIA_E_COLA_POKE_${i}</div>
-                            <button class="btn-copiar" onclick="copiarPix('codigo-poke${i}')">COPIAR PIX</button>
-                        </div>
-                    </div>
-                    <div class="item-info">
-                        <p class="item-titulo">NOME_POKEMON_${i}</p>
-                        <p class="item-preco">R$ VALOR_${i}</p>
-                        <button class="btn-comprar" onclick="acionarCompra('poke${i}')">GERAR PIX</button>
-                    </div>
-                </div>
-                `;
-            }
-            document.write(htmlCards);
-        </script>
-        
-    </div>
+    <!-- O Catálogo será injetado aqui pela configuração abaixo -->
+    <div class="catalogo" id="grade-catalogo"></div>
 
-    <!-- BOTÃO WHATSAPP FIXO -->
     <div class="zap-container">
         <a href="https://wa.me/5541996420192" target="_blank" class="zap-btn" id="zap-btn">
             <span style="font-size: 24px;">💬</span>
@@ -277,20 +148,57 @@
     </div>
 
     <script>
-        function acionarCompra(idItem) {
-            document.getElementById('img-' + idItem).style.display = 'none';
-            document.getElementById('pix-area-' + idItem).style.display = 'flex';
-            
-            const zapBtn = document.getElementById('zap-btn');
-            zapBtn.classList.add('alerta');
+        // ========================================================================
+        // ZONA DE CONFIGURAÇÃO SIMPLIFICADA (EDITE APENAS AQUI)
+        // ========================================================================
+        // Adicione quantos Pokémons quiser copiando uma linha e colando embaixo.
+        // Mantenha as aspas ("") e as vírgulas no final de cada linha.
+        
+        const esquadrao = [
+            { id: 1, nome: "GigantaCharizard", preco: "7,00", imagem: "gigantacharizard.jpeg", pix: "COLOQUE_SEU_PIX_AQUI" },
+            { id: 2, nome: "Rayquaza", preco: "3,50", imagem: "rayquaza.jpeg", pix: "COLOQUE_SEU_PIX_AQUI" },
+            { id: 3, nome: "Kyogre", preco: "2,80", imagem: "kyogre.jpeg", pix: "COLOQUE_SEU_PIX_AQUI" },
+            { id: 4, nome: "Groudon", preco: "2,80", imagem: "groudon.jpeg", pix: "COLOQUE_SEU_PIX_AQUI" },
+            { id: 5, nome: "Dialga", preco: "1,50", imagem: "dialga.jpeg", pix: "COLOQUE_SEU_PIX_AQUI" }
+            // Copie a linha acima e cole aqui para adicionar o 6, o 7, até o 30...
+        ];
+
+        // ========================================================================
+        // O MOTOR (NÃO PRECISA MEXER AQUI)
+        // ========================================================================
+        const grade = document.getElementById('grade-catalogo');
+        
+        esquadrao.forEach(poke => {
+            grade.innerHTML += `
+                <div class="card">
+                    <div class="display-area">
+                        <img src="${poke.imagem}" class="item-img" id="img-${poke.id}" alt="${poke.nome}">
+                        <div class="pix-area" id="pix-area-${poke.id}">
+                            <div class="pix-code" id="codigo-${poke.id}">${poke.pix}</div>
+                            <button class="btn-copiar" onclick="copiarPix('codigo-${poke.id}')">COPIAR PIX</button>
+                        </div>
+                    </div>
+                    <div class="item-info">
+                        <p class="item-titulo">${poke.nome}</p>
+                        <p class="item-preco">R$ ${poke.preco}</p>
+                        <button class="btn-comprar" onclick="acionarCompra(${poke.id})">GERAR PIX</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        function acionarCompra(id) {
+            document.getElementById('img-' + id).style.display = 'none';
+            document.getElementById('pix-area-' + id).style.display = 'flex';
+            document.getElementById('zap-btn').classList.add('alerta');
         }
 
         function copiarPix(idCodigo) {
             const textoPix = document.getElementById(idCodigo).innerText;
             navigator.clipboard.writeText(textoPix).then(() => {
-                alert("Código Pix copiado! Cole no seu aplicativo do banco.");
+                alert("Código Pix copiado!");
             }).catch(err => {
-                alert("Falha ao copiar. Tente selecionar o texto manualmente.");
+                alert("Falha ao copiar. Selecione o texto manualmente.");
             });
         }
     </script>
