@@ -23,7 +23,7 @@
             overflow: hidden;
         }
 
-        /* Camada de vidro para suavizar o fundo e dar destaque ao carrossel */
+        /* Camada de vidro para suavizar o fundo */
         .glass-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -45,70 +45,60 @@
         }
 
         .carousel-container {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            height: 450px;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
             z-index: 10;
         }
 
+        /* MOTOR DE DESLIZAMENTO NATIVO (SCROLL SNAP) */
         .carousel-track {
-            position: relative;
-            width: 100%;
-            height: 100%;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-style: preserve-3d;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding: 20px 60px; /* Espaço para as setas não cobrirem os cards */
+            scroll-behavior: smooth;
+            width: 100%;
+            box-sizing: border-box;
+            -ms-overflow-style: none;  /* Ocultar barra no IE/Edge */
+            scrollbar-width: none;  /* Ocultar barra no Firefox */
+        }
+        
+        /* Ocultar barra de rolagem no Chrome/Safari/Opera */
+        .carousel-track::-webkit-scrollbar {
+            display: none;
         }
 
         .card {
-            position: absolute;
-            width: 260px;
+            scroll-snap-align: center; /* Trava o card no centro da tela ao deslizar */
+            flex: 0 0 260px; /* Largura fixa do card */
             height: 380px;
             background: linear-gradient(145deg, #ffffff, #f0f0f0);
             border: 4px solid #ffcb05;
             border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 0 15px rgba(255, 203, 5, 0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3), inset 0 0 15px rgba(255, 203, 5, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-evenly;
             text-decoration: none;
-            transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.5s ease;
-            opacity: 0;
-            pointer-events: none;
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
+            transition: transform 0.3s;
         }
 
-        .card.active {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-            pointer-events: auto;
-            z-index: 5;
-        }
-
-        .card.prev {
-            opacity: 0.4;
-            transform: translateX(-60%) scale(0.8);
-            z-index: 4;
-        }
-
-        .card.next {
-            opacity: 0.4;
-            transform: translateX(60%) scale(0.8);
-            z-index: 4;
+        .card:hover {
+            transform: scale(1.03);
         }
 
         .card-icon {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             background-color: #f8f8f8;
             border-radius: 50%;
             border: 4px dashed #ff0000;
@@ -134,30 +124,30 @@
             padding: 12px 25px;
             border-radius: 20px;
             font-weight: 900;
-            font-size: 16px;
+            font-size: 15px;
             text-transform: uppercase;
             box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
             border: 2px solid #cc0000;
             transition: 0.2s;
-            width: 80%;
+            width: 85%;
         }
 
         .card:hover .card-btn {
-            transform: scale(1.05);
             background-color: #ff3333;
+            transform: scale(1.05);
         }
 
         .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background-color: #ffcb05;
             color: #3b4cca;
             border: 3px solid #3b4cca;
             border-radius: 50%;
-            font-size: 30px;
+            font-size: 24px;
             font-weight: 900;
             cursor: pointer;
             z-index: 20;
@@ -165,21 +155,21 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition: all 0.2s;
         }
 
         .nav-btn:active {
             transform: translateY(-50%) scale(0.9);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-        .nav-left { left: -30px; }
-        .nav-right { right: -30px; }
+        .nav-left { left: 10px; }
+        .nav-right { right: 10px; }
 
         @media (max-width: 480px) {
-            .nav-left { left: -10px; width: 50px; height: 50px; font-size: 24px; }
-            .nav-right { right: -10px; width: 50px; height: 50px; font-size: 24px; }
-            .card { width: 240px; height: 350px; }
+            .card { flex: 0 0 240px; height: 350px; }
+            .nav-left { left: 5px; width: 45px; height: 45px; }
+            .nav-right { right: 5px; width: 45px; height: 45px; }
+            .carousel-track { padding: 20px 50px; }
         }
     </style>
 </head>
@@ -194,14 +184,14 @@
         
         <div class="carousel-track" id="track">
             <!-- 1. Itens -->
-            <a href="itens.html" class="card active">
+            <a href="itens.html" class="card">
                 <div class="card-icon">🎒</div>
                 <div class="card-title">Itens de Apoio</div>
                 <div class="card-btn">Acessar</div>
             </a>
             
             <!-- 2. Promoção do Dia -->
-            <a href="promocaododia.html" class="card next">
+            <a href="promocaododia.html" class="card">
                 <div class="card-icon">⚡</div>
                 <div class="card-title">Promoção do Dia</div>
                 <div class="card-btn">Acessar</div>
@@ -222,7 +212,7 @@
             </a>
             
             <!-- 5. Pacotes -->
-            <a href="pacotes.html" class="card prev">
+            <a href="pacotes.html" class="card">
                 <div class="card-icon">🎁</div>
                 <div class="card-title">Pacotes Especiais</div>
                 <div class="card-btn">Acessar</div>
@@ -240,30 +230,12 @@
     </div>
 
     <script>
-        const quadros = document.querySelectorAll('.card');
-        let indexAtual = 0;
-        const total = quadros.length;
-
-        function atualizarClasses() {
-            quadros.forEach((quadro, index) => {
-                quadro.className = 'card'; 
-                
-                if (index === indexAtual) {
-                    quadro.classList.add('active');
-                } else if (index === (indexAtual - 1 + total) % total) {
-                    quadro.classList.add('prev');
-                } else if (index === (indexAtual + 1) % total) {
-                    quadro.classList.add('next');
-                }
-            });
-        }
-
         function moverCarrossel(direcao) {
-            indexAtual = (indexAtual + direcao + total) % total;
-            atualizarClasses();
+            const track = document.getElementById('track');
+            // Calcula o tamanho do pulo (largura do card + gap)
+            const scrollAmount = direcao * 280; 
+            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
-        
-        atualizarClasses();
     </script>
 </body>
 </html>
