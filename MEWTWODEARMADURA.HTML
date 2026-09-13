@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mewtwo de Armadura - Oferta Tática</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #0b071a;
+            background-image: radial-gradient(circle at 50% 0%, #3a1c61 0%, #0b071a 100%);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .nav-link {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 1px solid #7d4bba;
+            margin-bottom: 20px;
+            align-self: flex-start;
+            transition: 0.3s;
+        }
+        .nav-link:hover { background-color: #7d4bba; }
+
+        .produto-container {
+            background: linear-gradient(145deg, #1c1032, #110a1f);
+            border: 2px solid #7d4bba;
+            border-radius: 25px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(125, 75, 186, 0.2);
+        }
+
+        .tag-raridade {
+            background-color: #ff0055;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.6);
+        }
+
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 26px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+            color: #e0d4f5;
+        }
+
+        .imagem-destaque {
+            width: 100%;
+            border-radius: 15px;
+            border: 3px solid #3a1c61;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            background-color: #000;
+        }
+
+        .status-box {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(0,0,0,0.4);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #3a1c61;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            color: #aaa;
+        }
+        .status-valor {
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .preco-container {
+            margin-bottom: 25px;
+        }
+
+        .preco-antigo {
+            font-size: 16px;
+            color: #888;
+            text-decoration: line-through;
+            margin: 0;
+        }
+
+        .preco-novo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #39ff14; /* Verde tático */
+            margin: 0;
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+        }
+
+        .alerta-estoque {
+            font-size: 12px;
+            color: #ffaa00;
+            margin-top: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .btn-comprar {
+            display: block;
+            background: linear-gradient(90deg, #25D366, #1da851);
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+            transition: all 0.2s;
+            border: 2px solid #fff;
+        }
+
+        .btn-comprar:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
+        }
+
+        .garantia {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="nav-link">❮ Voltar</a>
+
+    <div class="produto-container">
+        <div class="tag-raridade">Espécime Legado</div>
+        
+        <h1>Mewtwo de Armadura</h1>
+        
+        <img src="1000206824.jpg" alt="Mewtwo de Armadura CP 1804" class="imagem-destaque">
+        
+        <div class="status-box">
+            <div class="status-item">
+                <span>CP Atual</span>
+                <span class="status-valor">1804</span>
+            </div>
+            <div class="status-item">
+                <span>Tipo</span>
+                <span class="status-valor" style="color: #f781d8;">Psíquico</span>
+            </div>
+        </div>
+
+        <div class="preco-container">
+            <!-- Edite os valores abaixo conforme sua estratégia -->
+            <p class="preco-antigo">Mercado: R$ 120,00</p>
+            <p class="preco-novo">R$ 65,00</p>
+            <div class="alerta-estoque">Apenas 1 unidade disponível na base</div>
+        </div>
+
+        <!-- Botão com rota direta para o seu WhatsApp -->
+        <a href="https://wa.me/5541996420192?text=Fala%20Mega%20Man!%20Tenho%20interesse%20em%20comprar%20o%20Mewtwo%20de%20Armadura%20pelo%20valor%20do%20site." target="_blank" class="btn-comprar">
+            Comprar via WhatsApp
+        </a>
+
+        <div class="garantia">
+            Transação Segura • Transferência Imediata
+        </div>
+    </div>
+
+</body>
+</html>
